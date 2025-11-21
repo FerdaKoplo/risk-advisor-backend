@@ -22,7 +22,7 @@ class RiskAssessment(db.Model):
     calculated_score = db.Column(db.Float, nullable=False)
     risk_level = db.Column(db.String(20), nullable=False)
 
-    final_action = db.Column(db.Text, nullable=False)
+    final_action = db.Column(db.Text, nullable=True) 
 
     extra_metadata = db.Column(db.JSON, nullable=True)
 
@@ -41,6 +41,7 @@ class RiskAssessment(db.Model):
             "comp_multiplier": self.comp_multiplier,
             "calculated_score": self.calculated_score,
             "final_action": self.final_action,
+            "risk_level": self.risk_level,
             "extra_metadata": self.extra_metadata,
             "assessment_date": self.assessment_date.isoformat()
         }
