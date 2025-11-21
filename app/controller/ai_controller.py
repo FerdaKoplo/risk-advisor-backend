@@ -33,17 +33,13 @@ def ai_safety_advice():
     try:
         assessment = RiskService.create_assessment(data)
 
+        # Simplified prompt: only emergency action if risk HIGH
         prompt = f"""
 You are an industrial safety expert.
 
-Return ONLY a short safety advisory message with no formatting, no bullet points,
-no markdown, no JSON, and no extra text outside the answer.
-
-Format exactly:
-
-Risk Summary: <one sentence>
-Actions: <two short actions separated by commas>
-Emergency: <only if risk HIGH, otherwise write "None">
+Return ONLY the emergency action if the risk is HIGH. 
+If the risk is not HIGH, respond with 'None'.
+Do NOT include summaries or general actions.
 
 Employee: {assessment['employee_id']}
 Location: {assessment['location_area']}
@@ -52,14 +48,13 @@ Score: {assessment['score']}
 """
 
         raw_suggestion = ollama.generate(prompt)
-
-        message = "\n".join(line.strip() for line in raw_suggestion.splitlines() if line.strip())
+        emergency_advice = raw_suggestion.strip()
 
         return jsonify({
             "status": "success",
             "source": "RandomForest + Ollama AI",
             "assessment": assessment,
-            "message": message
+            "emergency": emergency_advice
         }), 200
 
     except Exception as e:
