@@ -1,4 +1,4 @@
-from extension import db
+from app.extension import db
 from datetime import datetime
 from typing import Dict, Any, List
 
@@ -24,7 +24,7 @@ class RiskAssessment(db.Model):
 
     final_action = db.Column(db.Text, nullable=False)
 
-    metadata = db.Column(db.JSON, nullable=True)
+    extra_metadata = db.Column(db.JSON, nullable=True)
 
     assessment_date = db.Column(db.DateTime, default=datetime.now, index=True)
 
@@ -41,5 +41,6 @@ class RiskAssessment(db.Model):
             "comp_multiplier": self.comp_multiplier,
             "calculated_score": self.calculated_score,
             "final_action": self.final_action,
+            "extra_metadata": self.extra_metadata,
             "assessment_date": self.assessment_date.isoformat()
         }

@@ -1,7 +1,7 @@
-from models.risk_assesment import RiskAssessment
-from models.risk_factor_definitions import RiskFactorDefinition
-from models.risk_matrix_rule import RiskMatrixRule
-from extension import db
+from app.models.risk_assesment import RiskAssessment
+from app.models.risk_factor_definitions import RiskFactorDefinition
+from app.models.risk_matrix_rule import RiskMatrixRule
+from app.extension import db
 from datetime import datetime
 
 

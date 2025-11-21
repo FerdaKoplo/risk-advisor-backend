@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from services.risk_trend_service import RiskTrendService
+from app.services.risk_trend_service import RiskTrendService
 
 trend_bp = Blueprint("trend", __name__)
 

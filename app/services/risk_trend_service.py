@@ -1,8 +1,7 @@
-from models.risk_assesment import RiskAssessment
+from app.models.risk_assesment import RiskAssessment
 from datetime import datetime, timedelta
 from sqlalchemy import func
-from extension import db
-
+from app.extension import db
 
 class RiskTrendService:
 

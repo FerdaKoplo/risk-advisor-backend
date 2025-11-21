@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from services.ollama_service import OllamaService
-from services.risk_service import RiskService
+from app.services.ollama_service import OllamaService
+from app.services.risk_service import RiskService
 
 ai_route = Blueprint("ai_route", __name__)
 ollama = OllamaService()
@@ -13,31 +13,31 @@ def ai_safety_advice():
         assessment = RiskService.create_assessment(data)
 
         prompt = f"""
-You are an AI Safety Risk Expert. Based on the following structured data,
-provide a tailored safety recommendation with actionable steps.
+                You are an AI Safety Risk Expert. Based on the following structured data,
+                provide a tailored safety recommendation with actionable steps.
 
-Employee: {assessment['employee_id']}
-Location: {assessment['location_area']}
+                Employee: {assessment['employee_id']}
+                Location: {assessment['location_area']}
 
-Risk Score: {assessment['score']}
-Risk Level: {assessment['risk_level']}
-System Recommendation: {assessment['suggestion']}
+                Risk Score: {assessment['score']}
+                Risk Level: {assessment['risk_level']}
+                System Recommendation: {assessment['suggestion']}
 
-Risk Factors:
-- Probability: {assessment['details']['prob_weight']}
-- Severity: {assessment['details']['sev_weight']}
-- Competency Modifier: {assessment['details']['comp_multiplier']}
+                Risk Factors:
+                - Probability: {assessment['details']['prob_weight']}
+                - Severity: {assessment['details']['sev_weight']}
+                - Competency Modifier: {assessment['details']['comp_multiplier']}
 
-Write the output in this format:
+                Write the output in this format:
 
-**Risk Summary**
-- Short explanation.
+                **Risk Summary**
+                - Short explanation.
 
-**AI Recommended Action**
-- 2–3 bullet points.
+                **AI Recommended Action**
+                - 2–3 bullet points.
 
-If risk level is HIGH → include emergency instruction.
-"""
+                If risk level is HIGH → include emergency instruction.
+                """
 
         suggestion = ollama.generate(prompt)
 

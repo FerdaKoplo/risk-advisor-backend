@@ -1,4 +1,4 @@
-from extension import db
+from app.extension import db
 from typing import Dict, Any
 import json
 

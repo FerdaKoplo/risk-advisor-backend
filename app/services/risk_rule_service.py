@@ -1,5 +1,5 @@
-from models.risk_matrix_rule import RiskMatrixRule
-from extension import db
+from app.models.risk_matrix_rule import RiskMatrixRule
+from app.extension import db
 
 
 class RiskRuleService:
