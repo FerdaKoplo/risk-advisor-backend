@@ -51,12 +51,16 @@ class RiskService:
         if RiskService.ml_model is None:
             RiskService.load_ml_model()
         if RiskService.ml_model is None:
-            # fallback if no model exists
             print("ML model not available, using rule-based fallback")
             score = prob_weight * sev_weight * comp_multiplier
             rule = RiskService.get_risk_rule(score)
             return rule.risk_level
-        return RiskService.ml_model.predict([[prob_weight, sev_weight, comp_multiplier]])[0]
+
+        X_pred = pd.DataFrame(
+            [[prob_weight, sev_weight, comp_multiplier]],
+            columns=['prob_weight', 'sev_weight', 'comp_multiplier']
+        )
+        return RiskService.ml_model.predict(X_pred)[0]
 
  
     @staticmethod

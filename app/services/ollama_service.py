@@ -12,7 +12,8 @@ class OllamaService:
     def generate(self, prompt: str) -> str:
         payload = {
             "model": self.model,
-            "prompt": prompt
+            "prompt": prompt,
+            "stream": False  
         }
 
         response = requests.post(self.base_url, json=payload)
@@ -20,4 +21,13 @@ class OllamaService:
         if response.status_code != 200:
             raise Exception(f"Ollama error: {response.text}")
 
-        return response.json().get("response", "").strip()
+        try:
+            data = response.json()
+            if "response" in data:
+                return str(data["response"]).strip()
+            elif "responses" in data and isinstance(data["responses"], list):
+                return " ".join(str(r).strip() for r in data["responses"])
+            else:
+                return str(response.text).strip()
+        except ValueError:
+            return str(response.text).strip()
